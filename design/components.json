@@ -23,7 +23,7 @@
       "export": "default",
       "path": "src/components/Hero.tsx",
       "props": { "ready": "boolean; entrance animation waits until the intro is done" },
-      "behaviour": "Sky-to-white wash. Eyebrow, split h1 (two lines, one italic accent), lead, primary CTA to #galleria and outline CTA to #contatti. Collage: arch photo with Sparkles + two stacked photos (heroPhotos), eager-loaded. Below 1024px, arch vertically centered beside the stack with no bottom padding; desktop retains bottom alignment and stack padding. Line/clip-path reveals; parallax yPercent +-6 scrub on desktop only.",
+      "behaviour": "Sky-to-white wash. Eyebrow, split h1 (two lines, one italic accent), lead, primary CTA to #galleria and outline CTA to #contatti. Collage: arch photo with Sparkles + two stacked photos (heroPhotos), eager-loaded. Below 768px the entire collage is hidden without reserved space. At 768–1023px the arch is vertically centered beside the stack with no bottom padding; desktop retains bottom alignment and stack padding. Line/clip-path reveals; parallax yPercent +-6 scrub on desktop only.",
       "a11y": "section#top labelled by h1#hero-title. CTAs are real anchors (work without JS). All motion inside matchMedia(no-preference)."
     },
     {

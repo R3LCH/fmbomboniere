@@ -56,7 +56,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           </div>
         </div>
 
-        <div className="relative mx-auto grid w-full max-w-[640px] grid-cols-[3fr_2fr] items-center gap-3 sm:gap-5 lg:items-end">
+        <div className="relative mx-auto hidden w-full max-w-[640px] grid-cols-[3fr_2fr] items-center gap-3 md:grid sm:gap-5 lg:items-end">
           <div className="relative" data-parallax="1">
             <Sparkles />
             <div className="arch zoom aspect-[3/4] shadow-[0_30px_60px_-30px_rgb(46_42_48/.25)]" data-img>

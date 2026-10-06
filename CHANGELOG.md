@@ -8,6 +8,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - White textured vases with tulips in Idee regalo (`research/build.py`); 32 photos now fill the last row of the two-column All gallery.
 
+### Changed
+
+- Hide all three hero photos and decorative stars below 768px (`Hero.tsx`), leaving a text-and-CTA mobile hero without reserved collage space; tablet and desktop keep the photos.
+
 ### Fixed
 
 - Mobile occasions use two aligned columns without separators at row starts (`About.tsx`), instead of wrapping separator-prefixed items.
