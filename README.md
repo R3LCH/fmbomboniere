@@ -59,10 +59,10 @@ Every entry in `src/data/gallery.json` looks like this:
 ```
 
 - `src` is up to 1600px on the long side. `thumb` is 640px. Both are WebP files in `public/img/gallery/`. `w`/`h` are the pixel size of `src`.
-- `collection` must be one of `matrimonio`, `battesimo`, `comunione`, `laurea`, `eventi` or `regali` (`COLLECTIONS` in `src/data.ts`). Entries with any other value are skipped. Collection cards and filter chips only appear for collections that have photos. A new collection needs an entry in `COLLECTIONS` and `c.<name>` labels in both dictionaries in `src/i18n.tsx`.
+- `collection` must be one of `battesimo`, `comunione`, `matrimonio`, `feste` or `regali` (`COLLECTIONS` in `src/data.ts`). Entries with any other value are skipped. Collection cards and filter chips only appear for collections that have photos. A new collection needs an entry in `COLLECTIONS` and `c.<name>` labels in both dictionaries in `src/i18n.tsx`.
 - `featured` photos are preferred for collection covers. The hero and About photos are picked by slug (`HERO_SLUGS` and `aboutPhoto` in `src/data.ts`), so update those if you remove a photo they use.
-- Landscape photos (ratio > 1.15) span two gallery columns.
-- Keep the manifest sorted newest first. The brief asks for recent collections only.
+- All gallery tiles use uniform 4:5 crops; the lightbox shows the full uncropped image.
+- The photo pipeline groups entries by collection. Use recent work and avoid near-duplicate angles.
 
 ### Photo pipeline (`research/`)
 

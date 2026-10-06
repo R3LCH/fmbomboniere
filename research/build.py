@@ -44,6 +44,7 @@ SEL = [
  ("fb:077", "regali-lanterne-cioccolatini", "regali", "Lanterne in vetro lilla e rosa con ciotola a cuore di cioccolatini", "Lilac and pink glass lanterns with a heart bowl of chocolates", False, ""),
  ("fb:080", "regali-barattoli-vetro-rosa", "regali", "Barattoli e alzatine in vetro rosa su colonne pastello", "Pink glass jars and cake stands on pastel pedestals", False, ""),
  ("ig:DWBareogn8O_00", "regali-profumatori-pastello", "regali", "Profumatori per ambiente in vetro con tappi floreali nei toni pastello", "Glass home fragrance diffusers with flower caps in pastel tones", False, "2026-03-18"),
+ ("fb:123", "regali-vasi-bianchi-tulipani", "regali", "Vasi bianchi dalla superficie intrecciata con tulipani rosa, bianchi e gialli", "White textured vases with pink, white and yellow tulips", False, ""),
 ]
 
 ORDER = ["battesimo", "comunione", "matrimonio", "feste", "regali"]

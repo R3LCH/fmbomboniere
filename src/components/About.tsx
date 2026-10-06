@@ -27,10 +27,10 @@ export default function About() {
           </div>
           <Ornament className="my-9" />
           <h3 className="eyebrow m-0 mb-4" data-reveal>{t('about.occasions')}</h3>
-          <ul className="m-0 flex list-none flex-wrap items-center p-0 font-serif text-[1.5rem] leading-10" data-reveal>
+          <ul className="m-0 grid grid-cols-2 gap-x-4 list-none p-0 font-serif text-[1.5rem] leading-10 md:flex md:flex-wrap md:items-center" data-reveal>
             {t('occ').split('|').map((o, i) => (
               <li key={o} className="flex items-center">
-                {i > 0 && <span aria-hidden="true" className="mx-4 h-5 w-px bg-rose-gold" />}
+                {i > 0 && <span aria-hidden="true" className="mx-4 hidden h-5 w-px bg-rose-gold md:block" />}
                 {o}
               </li>
             ))}

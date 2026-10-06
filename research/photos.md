@@ -35,3 +35,4 @@ One photo per event/set. `fb:` = Facebook page photos grid (logged-out, image ke
 | regali-lanterne-cioccolatini | regali | Facebook photos, 484335862_17905384212101914_4562671006701539350_n | n/d |
 | regali-barattoli-vetro-rosa | regali | Facebook photos, 484972993_17905338237101914_6488010747012079906_n | n/d |
 | regali-profumatori-pastello | regali | https://www.instagram.com/p/DWBareogn8O/ (slide 1) | 2026-03-18 |
+| regali-vasi-bianchi-tulipani | regali | Facebook photos, 630171000_17947166295101914_8366827427337959000_n | n/d |

@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- White textured vases with tulips in Idee regalo (`research/build.py`); 32 photos now fill the last row of the two-column All gallery.
+
+### Fixed
+
+- Mobile occasions use two aligned columns without separators at row starts (`About.tsx`), instead of wrapping separator-prefixed items.
+- Mobile hero arch is vertically centered against the two right-hand photos (`Hero.tsx`); desktop bottom alignment and padding are unchanged.
+
 ## [1.1.0] - 2026-10-06
 
 ### Changed

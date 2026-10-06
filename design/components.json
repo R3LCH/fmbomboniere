@@ -23,7 +23,7 @@
       "export": "default",
       "path": "src/components/Hero.tsx",
       "props": { "ready": "boolean; entrance animation waits until the intro is done" },
-      "behaviour": "Sky-to-white wash. Eyebrow, split h1 (two lines, one italic accent), lead, primary CTA to #galleria and outline CTA to #contatti. Collage: arch photo with Sparkles + two stacked photos (heroPhotos), eager-loaded. Line/clip-path reveals; parallax yPercent +-6 scrub on desktop only.",
+      "behaviour": "Sky-to-white wash. Eyebrow, split h1 (two lines, one italic accent), lead, primary CTA to #galleria and outline CTA to #contatti. Collage: arch photo with Sparkles + two stacked photos (heroPhotos), eager-loaded. Below 1024px, arch vertically centered beside the stack with no bottom padding; desktop retains bottom alignment and stack padding. Line/clip-path reveals; parallax yPercent +-6 scrub on desktop only.",
       "a11y": "section#top labelled by h1#hero-title. CTAs are real anchors (work without JS). All motion inside matchMedia(no-preference)."
     },
     {
@@ -31,7 +31,7 @@
       "export": "default",
       "path": "src/components/About.tsx",
       "props": {},
-      "behaviour": "Section #chi-siamo, white-to-blush wash. Arch portrait (aboutPhoto) with logo medallion, split h2, two paragraphs, Ornament, list of occasions separated by rose-gold hairlines. sectionReveals.",
+      "behaviour": "Section #chi-siamo, white-to-blush wash. Arch portrait (aboutPhoto) with logo medallion, split h2, two paragraphs, Ornament, list of occasions. Below 768px, two aligned columns without separators; wider layouts wrap with rose-gold hairlines. sectionReveals.",
       "a11y": "Labelled by h2#about-title; occasions are a real list; decorative medallion and separators have empty alt / aria-hidden."
     },
     {

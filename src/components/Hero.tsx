@@ -56,14 +56,14 @@ export default function Hero({ ready }: { ready: boolean }) {
           </div>
         </div>
 
-        <div className="relative mx-auto grid w-full max-w-[640px] grid-cols-[3fr_2fr] items-end gap-3 sm:gap-5">
+        <div className="relative mx-auto grid w-full max-w-[640px] grid-cols-[3fr_2fr] items-center gap-3 sm:gap-5 lg:items-end">
           <div className="relative" data-parallax="1">
             <Sparkles />
             <div className="arch zoom aspect-[3/4] shadow-[0_30px_60px_-30px_rgb(46_42_48/.25)]" data-img>
               <Img photo={main} alt={lang === 'it' ? main.alt_it : main.alt_en} eager sizes="(min-width: 1024px) 380px, 58vw" className="size-full object-cover" />
             </div>
           </div>
-          <div className="flex flex-col gap-3 pb-8 sm:gap-5" data-parallax="-1">
+          <div className="flex flex-col gap-3 sm:gap-5 lg:pb-8" data-parallax="-1">
             {[a, b].map((p) => (
               <div key={p.slug} className="zoom aspect-[4/5] overflow-hidden rounded-[6px]" data-img>
                 <Img photo={p} alt={lang === 'it' ? p.alt_it : p.alt_en} eager sizes="(min-width: 1024px) 250px, 38vw" className="size-full object-cover" />
