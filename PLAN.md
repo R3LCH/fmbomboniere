@@ -64,6 +64,6 @@ Binding design contract: `design/DESIGN.md`. Research inputs: `research/*.md`.
 
 ## Phase 8: Publish
 - [x] 8.1 `git init`
-- [ ] 8.2 First commit
-- [ ] 8.3 Create GitHub repo `R3LCH/fmbomboniere` and push `main`
-- [ ] 8.4 Enable Pages (GitHub Actions source), wait for the workflow, verify the live URL
+- [x] 8.2 First commit
+- [x] 8.3 Created public repo `R3LCH/fmbomboniere`, pushed `main`
+- [x] 8.4 Pages enabled (GitHub Actions); workflow succeeded; https://r3lch.github.io/fmbomboniere/ passes the same Playwright QA live
