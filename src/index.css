@@ -1,0 +1,314 @@
+@import 'tailwindcss';
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/400-italic.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/jost';
+
+@theme {
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Jost Variable', system-ui, sans-serif;
+  --color-surface: #ffffff;
+  --color-ivory: #fcfaf8;
+  --color-blush: #f8eaee;
+  --color-sky: #e8f2f8;
+  --color-ink: #2e2a30;
+  --color-muted: #5e5862;
+  --color-action: #7a4f5e;
+  --color-action-hover: #63404d;
+  --color-focus: #425e70;
+  --color-rose-gold: #c59b90;
+  --color-blue-deco: #bbd3df;
+  --color-line: #e7dcdf;
+  --color-disc: #2b2729;
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-hover: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root {
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --header-h: 64px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 72px;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  font-synthesis: none;
+  scroll-padding-top: var(--header-h);
+}
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 28px;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-blush);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(1240px + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  padding-block: var(--section-y);
+}
+
+/* Type scale */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.caption {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--color-muted);
+}
+.nav-text {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+.lead {
+  font-size: 19px;
+  line-height: 31px;
+  font-weight: 300;
+}
+.measure {
+  max-width: 60ch;
+}
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  margin: 0;
+}
+.h1 {
+  font-size: clamp(2.75rem, 1.8rem + 4vw, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.h2 {
+  font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+.h3 {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);
+  line-height: 1.2;
+}
+.h1 em,
+.h2 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Split-line masks for headline reveal */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.line-mask > span {
+  display: block;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    transform 120ms ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--color-action);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-action-hover);
+}
+.btn-outline {
+  border-color: var(--color-action);
+  color: var(--color-action);
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--color-action);
+  color: #fff;
+}
+
+.link {
+  color: var(--color-action);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 220ms ease;
+}
+.link:hover {
+  color: var(--color-action-hover);
+}
+
+/* Ornament: hairline + four-point star */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-rose-gold);
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  height: 1px;
+  width: 3.5rem;
+  background: currentColor;
+}
+
+/* Arch frame */
+.arch {
+  border-radius: 999px 999px 6px 6px;
+  overflow: hidden;
+}
+
+/* Image zoom on hover, fine pointers only */
+.zoom img {
+  transition: transform 0.7s var(--ease-hover);
+}
+@media (hover: hover) and (pointer: fine) {
+  .zoom:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* Sparkles */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+.sparkle {
+  position: absolute;
+  color: var(--color-rose-gold);
+  opacity: 0;
+  animation: twinkle var(--d, 4s) ease-in-out var(--delay, 0s) infinite;
+  animation-play-state: paused;
+}
+.sparkles-on .sparkle {
+  animation-play-state: running;
+}
+
+/* Lightbox */
+dialog.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+dialog.lightbox::backdrop {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    display: none;
+  }
+  .zoom img,
+  .btn {
+    transition-duration: 150ms;
+  }
+  .zoom:hover img,
+  .btn:active {
+    transform: none;
+  }
+}
+/* Header glass after scroll; solid white where backdrop-filter is unsupported */
+.glass {
+  background: #fff;
+}
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .glass {
+    background: rgb(255 255 255 / 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+

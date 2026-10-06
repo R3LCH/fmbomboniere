@@ -1,0 +1,112 @@
+{
+  "$description": "FM Bomboniere design tokens (W3C DTCG format). Source of truth for values: design/DESIGN.md; implemented in src/index.css (@theme and type classes). Keep all three in sync.",
+  "color": {
+    "$type": "color",
+    "surface": { "$value": "#ffffff", "$description": "Main canvas, lightbox mattes. CSS --color-surface." },
+    "surface-ivory": { "$value": "#fcfaf8", "$description": "Alternate canvas, mobile menu, intro curtain. CSS --color-ivory." },
+    "surface-blush": { "$value": "#f8eaee", "$description": "Pink section wash (About, Contact). CSS --color-blush." },
+    "surface-sky": { "$value": "#e8f2f8", "$description": "Blue section wash (Hero band, Collections). CSS --color-sky." },
+    "ink": { "$value": "#2e2a30", "$description": "Headings and body. Contrast 14.1 on white, 12.1 on blush, 12.4 on sky. CSS --color-ink." },
+    "ink-muted": { "$value": "#5e5862", "$description": "Secondary text and captions; >= 5.9:1 on every surface. CSS --color-muted." },
+    "action": { "$value": "#7a4f5e", "$description": "Single interaction accent: CTA fill, links, active chips. White label 6.76:1; >= 5.8:1 as text. CSS --color-action." },
+    "action-hover": { "$value": "#63404d", "$description": "CTA hover. White label 8.86:1. CSS --color-action-hover." },
+    "focus": { "$value": "#425e70", "$description": "2px focus outline, 3px offset; >= 5.9:1. CSS --color-focus." },
+    "rose-gold": { "$value": "#c59b90", "$description": "Decorative hairlines, ornaments, sparkles only. Never text. CSS --color-rose-gold." },
+    "blue-deco": { "$value": "#bbd3df", "$description": "Decorative accents only. CSS --color-blue-deco." },
+    "line": { "$value": "#e7dcdf", "$description": "Dividers and borders. CSS --color-line." },
+    "logo-disc": { "$value": "#2b2729", "$description": "Backdrop behind the logo (footer band). CSS --color-disc." }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "serif": { "$value": ["Cormorant Garamond", "Georgia", "serif"], "$description": "Display: @fontsource/cormorant-garamond 400/500/600 + 400/500 italic. Italic on at most one word per headline. CSS --font-serif." },
+      "sans": { "$value": ["Jost Variable", "system-ui", "sans-serif"], "$description": "Body/UI: @fontsource-variable/jost, weights 300-500. CSS --font-sans." }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": { "$value": 300 },
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 }
+    }
+  },
+  "typography": {
+    "$type": "typography",
+    "eyebrow": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "12px", "lineHeight": "16px", "fontWeight": 500, "letterSpacing": "0.18em" }, "$description": "Uppercase. CSS .eyebrow." },
+    "caption": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "13px", "lineHeight": "20px", "fontWeight": 300, "letterSpacing": "0em" }, "$description": "ink-muted. CSS .caption." },
+    "nav": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "14px", "lineHeight": "20px", "fontWeight": 400, "letterSpacing": "0.06em" }, "$description": "CSS .nav-text." },
+    "body": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "17px", "lineHeight": "28px", "fontWeight": 300, "letterSpacing": "0em" }, "$description": "Jost 300/400; measure <= 60ch. CSS body." },
+    "lead": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "19px", "lineHeight": "31px", "fontWeight": 300, "letterSpacing": "0em" }, "$description": "CSS .lead." },
+    "h3": { "$value": { "fontFamily": "{font.family.serif}", "fontSize": "clamp(1.5rem, 1.2rem + 1vw, 1.875rem)", "lineHeight": 1.2, "fontWeight": 500, "letterSpacing": "0em" }, "$description": "CSS .h3." },
+    "h2": { "$value": { "fontFamily": "{font.family.serif}", "fontSize": "clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem)", "lineHeight": 1.08, "fontWeight": 500, "letterSpacing": "-0.005em" }, "$description": "text-wrap: balance. CSS .h2." },
+    "h1": { "$value": { "fontFamily": "{font.family.serif}", "fontSize": "clamp(2.75rem, 1.8rem + 4vw, 5.25rem)", "lineHeight": 1.02, "fontWeight": 500, "letterSpacing": "-0.01em" }, "$description": "At most 2 lines. CSS .h1." },
+    "button": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "15px", "lineHeight": "20px", "fontWeight": 400, "letterSpacing": "0.04em" }, "$description": "CSS .btn." }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "Spacing scale (DESIGN.md: 4/8/12/16/24/32/40/48/64/96/128px).",
+    "1": { "$value": "4px" },
+    "2": { "$value": "8px" },
+    "3": { "$value": "12px" },
+    "4": { "$value": "16px" },
+    "6": { "$value": "24px" },
+    "8": { "$value": "32px" },
+    "10": { "$value": "40px" },
+    "12": { "$value": "48px" },
+    "16": { "$value": "64px" },
+    "24": { "$value": "96px" },
+    "32": { "$value": "128px" }
+  },
+  "layout": {
+    "$type": "dimension",
+    "container": { "$value": "1240px", "$description": "Max content width inside the gutter. CSS .wrap." },
+    "gutter-min": { "$value": "1.25rem", "$description": "CSS --gutter: clamp(1.25rem, 4vw, 4rem)." },
+    "gutter-max": { "$value": "4rem", "$description": "Upper bound of --gutter." },
+    "section-y-min": { "$value": "4.5rem", "$description": "CSS --section-y: clamp(4.5rem, 9vw, 8.5rem)." },
+    "section-y-max": { "$value": "8.5rem", "$description": "Upper bound of --section-y." },
+    "header-h-mobile": { "$value": "64px", "$description": "CSS --header-h below 1024px." },
+    "header-h-desktop": { "$value": "72px", "$description": "CSS --header-h from 1024px." },
+    "gallery-gap-mobile": { "$value": "12px" },
+    "gallery-gap-desktop": { "$value": "20px", "$description": "From 768px." },
+    "measure": { "$value": "60ch", "$description": "Max body line length. CSS .measure." },
+    "touch-target": { "$value": "44px", "$description": "Minimum interactive size (buttons min-height 48px)." },
+    "focus-width": { "$value": "2px" },
+    "focus-offset": { "$value": "3px" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "control": { "$value": "2px", "$description": "Controls inside forms." },
+    "image": { "$value": "6px", "$description": "Photos, gallery tiles." },
+    "panel": { "$value": "14px", "$description": "Dialog/menu panels, map frame." },
+    "pill": { "$value": "999px", "$description": "Buttons, filter chips, language toggle." },
+    "arch-top": { "$value": "999px", "$description": "Arch frame: border-radius 999px 999px 6px 6px (hero main photo, About portrait). CSS .arch." },
+    "arch-bottom": { "$value": "6px", "$description": "Arch frame bottom corners." }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "hero-frame": {
+      "$value": { "color": "#2e2a3040", "offsetX": "0px", "offsetY": "30px", "blur": "60px", "spread": "-30px" },
+      "$description": "Hero arch photo only: 0 30px 60px -30px rgb(46 42 48 / .25). No shadows on gallery or lightbox; never animate box-shadow."
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "press": { "$value": "120ms", "$description": "Button press scale .98." },
+    "reduced": { "$value": "150ms", "$description": "Max opacity-only transition under prefers-reduced-motion." },
+    "fade-out": { "$value": "200ms", "$description": "Gallery tiles leaving a filter." },
+    "color": { "$value": "220ms", "$description": "Button/link background and color transitions." },
+    "backdrop": { "$value": "300ms", "$description": "Lightbox backdrop fade, header glass." },
+    "crossfade": { "$value": "350ms", "$description": "Lightbox prev/next crossfade + x 24px." },
+    "close": { "$value": "400ms", "$description": "Lightbox close." },
+    "lightbox-open": { "$value": "550ms", "$description": "Image grows from tile rect (GSAP power3.inOut)." },
+    "flip": { "$value": "600ms", "$description": "Gallery filter Flip, menu overlay, intro logo." },
+    "reveal": { "$value": "700ms", "$description": "Section reveal, hover image zoom, intro curtain lift." },
+    "headline": { "$value": "900ms", "$description": "Split-line headline reveal (GSAP expo.out, stagger 0.08)." },
+    "image-reveal": { "$value": "1000ms", "$description": "clip-path image reveal (GSAP expo.out)." }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "out-soft": { "$value": [0.16, 1, 0.3, 1], "$description": "Section reveals. CSS --ease-out-soft; motion.ts EASE_SOFT." },
+    "hover": { "$value": [0.23, 1, 0.32, 1], "$description": "Fine-pointer image zoom 1 -> 1.04. CSS --ease-hover." }
+  }
+}

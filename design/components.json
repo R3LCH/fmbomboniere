@@ -1,0 +1,132 @@
+{
+  "$description": "Component contracts for the FM Bomboniere site, derived from src/components. Visual specs: design/DESIGN.md; tokens: design/fm.tokens.json. All copy comes from src/i18n.tsx (IT/EN); all photos from src/data/gallery.json via src/data.ts.",
+  "components": [
+    {
+      "name": "Header",
+      "export": "default",
+      "path": "src/components/Header.tsx",
+      "props": {},
+      "alsoExports": ["NAV (section ids + i18n keys, shared with Footer)", "LangToggle({ className?: string, dark?: boolean })"],
+      "behaviour": "Fixed bar, 64px / 72px from 1024px. Transparent over the hero; after 24px scroll gets .glass (white 82% + blur 12px, solid white fallback) and a line border. Logo link scrolls to #top. Desktop nav + LangToggle; below 1024px a hamburger opens a full-screen ivory overlay (clip-path circle 0.6s expo.inOut, links stagger 0.06).",
+      "a11y": "Nav landmarks labelled 'nav.label'. Toggle has aria-expanded, aria-controls='mobile-menu' and a localized aria-label. Overlay is inert while closed. Open: focus moves to the first link, Tab/Shift+Tab trapped across toggle + overlay controls, Esc closes and returns focus to the toggle; scroll locked. LangToggle is role=group with aria-pressed buttons carrying lang attributes, 44px targets."
+    },
+    {
+      "name": "Intro",
+      "export": "default",
+      "path": "src/components/Intro.tsx",
+      "props": { "onDone": "() => void, called when the curtain finishes or is skipped" },
+      "behaviour": "Ivory curtain with the logo: fade/scale 0.94->1 (0.6s), then lifts yPercent -100 (0.7s expo.inOut). Once per session (sessionStorage 'fm-intro').",
+      "a11y": "aria-hidden. Skipped entirely under prefers-reduced-motion; onDone fires immediately."
+    },
+    {
+      "name": "Hero",
+      "export": "default",
+      "path": "src/components/Hero.tsx",
+      "props": { "ready": "boolean; entrance animation waits until the intro is done" },
+      "behaviour": "Sky-to-white wash. Eyebrow, split h1 (two lines, one italic accent), lead, primary CTA to #galleria and outline CTA to #contatti. Collage: arch photo with Sparkles + two stacked photos (heroPhotos), eager-loaded. Line/clip-path reveals; parallax yPercent +-6 scrub on desktop only.",
+      "a11y": "section#top labelled by h1#hero-title. CTAs are real anchors (work without JS). All motion inside matchMedia(no-preference)."
+    },
+    {
+      "name": "About",
+      "export": "default",
+      "path": "src/components/About.tsx",
+      "props": {},
+      "behaviour": "Section #chi-siamo, white-to-blush wash. Arch portrait (aboutPhoto) with logo medallion, split h2, two paragraphs, Ornament, list of occasions separated by rose-gold hairlines. sectionReveals.",
+      "a11y": "Labelled by h2#about-title; occasions are a real list; decorative medallion and separators have empty alt / aria-hidden."
+    },
+    {
+      "name": "Collections",
+      "export": "default",
+      "path": "src/components/Collections.tsx",
+      "props": { "onPick": "(c: Collection) => void; App sets the gallery filter and scrolls to #galleria" },
+      "behaviour": "Section #collezioni on sky. One card per collection present in the manifest: 4:5 cover photo, serif name, photo count, arrow.",
+      "a11y": "Each card is a <button> with aria-label 'col.view' (e.g. 'Vedi nella galleria: Matrimonio'); cover image alt is empty (decorative, name is in the label)."
+    },
+    {
+      "name": "Gallery",
+      "export": "default",
+      "path": "src/components/Gallery.tsx",
+      "props": { "filter": "Filter = Collection | 'all'", "setFilter": "(f: Filter) => void" },
+      "alsoExports": ["type Filter"],
+      "behaviour": "Section #galleria. Filter chips (Tutte + present collections) animate the grid with GSAP Flip (0.6s power3.inOut; entering fade/scale .96->1, leaving fade .2s). Grid 2/3/4 columns, dense flow, landscape photos span 2 columns from 768px. Lazy srcset images (640w thumb + full).",
+      "a11y": "Chips: role=group labelled 'gal.filters', aria-pressed, aria-controls='gallery-grid', 44px tall. Each tile is a <button> with aria-label 'gal.open' + alt text, opening Lightbox. No Flip under reduced motion."
+    },
+    {
+      "name": "Lightbox",
+      "export": "default",
+      "path": "src/components/Lightbox.tsx",
+      "props": { "items": "Photo[] currently shown", "index": "number | null (null = closed)", "setIndex": "(i: number | null) => void" },
+      "behaviour": "Native modal <dialog>. Opens with backdrop fade .3s and image growing from the tile rect (0.55s); prev/next crossfade .35s + x 24px; close .4s. Counter 'n / total', caption = alt + collection. Swipe >50px changes photo. Scroll locked while open.",
+      "a11y": "showModal() makes the page inert and traps focus; aria-label 'lb.label'; close button autofocused. Esc (cancel event) closes, ArrowLeft/ArrowRight navigate, focus returns to the originating tile. Caption is aria-live=polite with a screen-reader counter. Controls 44px. Reduced motion: 150ms opacity only."
+    },
+    {
+      "name": "Contact",
+      "export": "default",
+      "path": "src/components/Contact.tsx",
+      "props": {},
+      "behaviour": "Section #contatti, blush wash. Address (Google Maps link), phone (tel:), WhatsApp, email (mailto:), Instagram, Facebook as large rows with line icons (internal Row component). Google Maps iframe mounts only when its box is within 300px of the viewport.",
+      "a11y": "Rows inside <address> as a list; external links open in a new tab with rel=noopener noreferrer; >= 64px rows. Iframe has a localized title."
+    },
+    {
+      "name": "Footer",
+      "export": "default",
+      "path": "src/components/Footer.tsx",
+      "props": {},
+      "behaviour": "Dark logo-disc band: large logo, owner line, tagline, NAV links, address/phone/email, Instagram/Facebook icon buttons, ornament divider, (c) current year, back-to-top.",
+      "a11y": "Nav labelled 'nav.label'; icon links have aria-label; all targets >= 44px; text white/80+ on #2b2729."
+    },
+    {
+      "name": "SplitHeading",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": { "lines": "ReactNode[]", "className": "string?", "as": "'h1' | 'h2' (default 'h2')", "id": "string?" },
+      "behaviour": "Wraps each line in .line-mask spans (data-split) for the yPercent 110->0 reveal; no split library.",
+      "a11y": "Renders a real heading; text stays in DOM order and visible without JS."
+    },
+    {
+      "name": "Img",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": { "photo": "Photo", "alt": "string", "sizes": "string", "eager": "boolean? (default false)", "className": "string?" },
+      "behaviour": "Responsive <img> with 640w thumb + full srcset, explicit width/height, lazy unless eager (eager also sets fetchPriority=high), async decoding.",
+      "a11y": "Caller supplies localized alt (empty when decorative)."
+    },
+    {
+      "name": "Star",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": { "className": "string? (default 'size-3')" },
+      "behaviour": "Four-point star SVG in currentColor.",
+      "a11y": "aria-hidden."
+    },
+    {
+      "name": "Ornament",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": { "className": "string?" },
+      "behaviour": "Rose-gold hairline + Star section divider; at most one per section.",
+      "a11y": "aria-hidden."
+    },
+    {
+      "name": "Sparkles",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": {},
+      "behaviour": "Six rose-gold stars twinkling (CSS keyframes, 3.4-5.6s offset cycles) around the hero arch; paused while offscreen via IntersectionObserver.",
+      "a11y": "aria-hidden, pointer-events none; display:none under prefers-reduced-motion."
+    },
+    {
+      "name": "Icon",
+      "export": "named",
+      "path": "src/components/ui.tsx",
+      "props": { "name": "'phone' | 'whatsapp' | 'mail' | 'pin' | 'instagram' | 'facebook' | 'arrow' | 'close' | 'prev' | 'next' | 'up'", "className": "string? (default 'size-5')" },
+      "alsoExports": ["type IconName", "LOGO (logo-320.webp URL)", "LOGO_LARGE (logo.webp URL)"],
+      "behaviour": "Line icon set, 24px viewBox, 1.5px stroke, currentColor.",
+      "a11y": "aria-hidden; the parent control carries the accessible name."
+    }
+  ],
+  "app": {
+    "path": "src/App.tsx",
+    "behaviour": "Skip link to #main (visible on focus), Intro, Header, main (Hero, About, Collections, Gallery, Contact), Footer. Owns the gallery filter state; starts Lenis (skipped under reduced motion) and honours an initial #hash."
+  }
+}

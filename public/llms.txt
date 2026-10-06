@@ -1,0 +1,23 @@
+# FM Bomboniere di Francesca Moliterni
+
+> Showcase website of a bomboniere (wedding and celebration favours) and gift shop in Scalea (CS), Calabria, Italy. Single-page site in Italian and English with a gallery of recent work. No e-commerce, no prices.
+
+## Business
+
+- Name: FM Bomboniere di Francesca Moliterni, "Bomboniere e Articoli da Regalo"
+- Occasions: matrimonio (wedding), battesimo (baptism), comunione, cresima, nascita (birth), laurea (graduation), gift items
+- Address: Via Tommaso Campanella 33, 87029 Scalea (CS), Italia
+- Phone / WhatsApp: +39 377 380 2773
+- Email: moliternifrancesca91@gmail.com
+- Instagram: https://www.instagram.com/fmbombonierescalea/
+- Facebook: https://www.facebook.com/profile.php?id=61556412425114
+
+## Site
+
+- [Home](./): sections #chi-siamo (about), #collezioni (collections), #galleria (gallery), #contatti (contact)
+
+## Design system
+
+- [DESIGN.md](design/DESIGN.md): design contract (color roles with WCAG ratios, typography, layout, components, motion, reduced motion, prohibited patterns)
+- [fm.tokens.json](design/fm.tokens.json): design tokens in W3C DTCG format
+- [components.json](design/components.json): component contracts (props, behaviour, accessibility)
