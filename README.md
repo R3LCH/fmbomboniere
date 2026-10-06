@@ -66,14 +66,14 @@ Every entry in `src/data/gallery.json` looks like this:
 
 ### Photo pipeline (`research/`)
 
-The current photos come from the shop's public Instagram posts (2026-03 → 2026-09). Each one is listed with its post URL and slide number in `research/photos.md`. The scripts run inside `research/` with a local venv (`playwright`, `pillow`). `research/.venv/` and `research/raw/` are gitignored.
+Most photos come from the shop's public Facebook photo grid (`raw/fbfull/NNN.jpg`, full size, keyed in `raw/fbfull/index.json`). The rest come from its Instagram posts (2026-03 → 2026-09), because Instagram shows only the 12 newest posts without a login. Each photo is listed with its source in `research/photos.md`. Keep one photo per event or set, never several angles of the same favours. The scripts run inside `research/` with a local venv (`playwright`, `pillow`). `research/.venv/` and `research/raw/` are gitignored.
 
 ```bash
 cd research
 python3 -m venv .venv && .venv/bin/pip install playwright pillow && .venv/bin/playwright install chromium
 .venv/bin/python posts.py               # crawl posts from raw/profile.html → raw/posts.json
 .venv/bin/python parse.py raw/*.html    # extract carousel media from saved post HTML → raw/media.json
-# download the chosen slides as raw/<code>_<NN>.jpg, then edit SEL in build.py
+# download the chosen Instagram slides as raw/<code>_<NN>.jpg or Facebook photos as raw/fbfull/NNN.jpg, then edit SEL in build.py
 .venv/bin/python build.py               # writes public/img/gallery/*.webp, src/data/gallery.json, photos.md
 ```
 

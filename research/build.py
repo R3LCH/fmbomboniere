@@ -1,48 +1,74 @@
-import json, datetime
+"""Curated gallery v2: Instagram (raw/<code>_<slide>.jpg) + Facebook photos grid (raw/fbfull/NNN.jpg).
+One shot per event/set, no near-duplicate angles. Run from research/: python build2.py"""
+import json, glob, os
 from PIL import Image
 
-media = json.load(open("raw/media.json"))
-# (raw id, slug, collection, alt_it, alt_en, featured)
+OUT = "../public/img/gallery"
+fbidx = json.load(open("raw/fbfull/index.json"))  # NNN -> FB image key (fbcdn file stem)
+
+# (source, slug, collection, alt_it, alt_en, featured, date)  source: "ig:<rawid>" or "fb:<NNN>"
 SEL = [
- ("DdgjYQdAhui_02", "matrimonio-davide-veronica-coppetta", "matrimonio", "Coppetta in vetro con confetti, fiocco champagne e bigliettino floreale sul segnaposto del matrimonio", "Glass bowl of sugared almonds with champagne bow and floral tag on a wedding place setting", True),
- ("DdgjYQdAhui_03", "matrimonio-davide-veronica-lecca-confetti", "matrimonio", "Spiedino di confetti avvolto in tulle con nastro avorio e bigliettino di ringraziamento", "Sugared almond skewer wrapped in tulle with ivory ribbon and thank-you tag", False),
- ("DdgjYQdAhui_07", "matrimonio-davide-veronica-tavola", "matrimonio", "Tavola nuziale apparecchiata in bianco con bomboniere a fiocco su ogni piatto", "White wedding table set with bow-tied favours on every plate", False),
- ("DbtPxU7Atsq_03", "battesimo-joseph-fiocco-azzurro", "battesimo", "Bomboniera battesimo con nastri azzurri e avorio e bigliettino con orsetto per Joseph", "Christening favour with light blue and ivory ribbons and teddy-bear tag for Joseph", True),
- ("DbtPxU7Atsq_01", "battesimo-joseph-nastri", "battesimo", "Fiocco in raso azzurro con scritta Il mio Battesimo e tag personalizzato", "Light blue satin bow printed Il mio Battesimo with personalised tag", False),
- ("DbtPxU7Atsq_02", "battesimo-joseph-scatoline", "battesimo", "Scatoline bianche con nastri azzurri e bigliettini con orsetto", "White favour boxes with light blue ribbons and teddy-bear tags", False),
- ("DbtPkOfAsA2_01", "laurea-sacchetto-rosso-quadrifoglio", "laurea", "Sacchetto rosso per laurea con nastro personalizzato e portachiavi quadrifoglio", "Red graduation pouch with printed ribbon and four-leaf-clover keyring", False),
- ("DbNdoNagmEn_03", "comunione-andrea-cilindri", "comunione", "Scatole cilindriche lilla con fiocchi verdi, fiori bianchi e tag della Prima Comunione di Andrea", "Lilac cylinder boxes with green bows, white flowers and First Communion tags for Andrea", True),
- ("DbNdoNagmEn_01", "comunione-andrea-fiocco-verde", "comunione", "Dettaglio del fiocco verde salvia e bigliettino La mia Comunione Andrea", "Close-up of sage green bow and La mia Comunione Andrea tag", False),
- ("DbNdoNagmEn_02", "comunione-andrea-allestimento", "comunione", "Allestimento all'aperto con scatola in plexiglass di confetti verdi e borse bianche", "Outdoor display with clear box of green sugared almonds and white gift bags", False),
- ("DbNdoNagmEn_04", "comunione-andrea-tavolo-bomboniere", "comunione", "Tavolo bomboniere con cilindri bianchi, calle e vasetti di fiori", "Favour table with white cylinders, calla lilies and small flower vases", False),
- ("Da_rmO-AuWa_04", "battesimo-alessia-confettata", "battesimo", "Confettata rosa e lilla con vasi di confetti e cartellini arcobaleno", "Pink and lilac sugared almond bar with jars and rainbow labels", False),
- ("Da_rmO-AuWa_07", "battesimo-alessia-torta-confetti", "battesimo", "Alzata con scritta Alessia e orsetti, confetti dorati e rosa sul tavolo del battesimo", "Stand with Alessia sign, teddy bears and gold and pink sugared almonds on the christening table", False),
- ("Da_rmO-AuWa_05", "battesimo-alessia-allestimento-mare", "battesimo", "Tavolo bomboniere rosa con palloncini e orsetti affacciato sul mare", "Pink favour table with balloons and teddy bears overlooking the sea", False),
- ("Da_rmO-AuWa_03", "battesimo-alessia-segnalibro", "battesimo", "Segnalibro arcobaleno personalizzato per il battesimo di Alessia", "Personalised rainbow bookmark for Alessia's christening", False),
- ("Da-twMGAp9-_01", "comunione-chanel-cappelliere-rosa", "comunione", "Cappelliere rosa in velluto con rose cipria e nome Chanel in oro", "Pink velvet hatboxes topped with blush roses and the name Chanel in gold", True),
- ("Da-twMGAp9-_02", "comunione-chanel-tavolo", "comunione", "Tavolo di cappelliere rosa con rose e tag della Comunione di Chanel", "Table of pink hatboxes with roses and Chanel Communion tags", False),
- ("Da709nIAu4l_01", "diciottesimo-pasquale-apribottiglie", "eventi", "Apribottiglie personalizzato 18 anni di Pasquale con scatola blu e fiocco petrolio", "Personalised 18th birthday bottle opener for Pasquale with blue box and teal bow", True),
- ("Da7fGpNAszv_02", "battesimo-azzurra-scatole-cuore", "battesimo", "Scatole con finestra a cuore e fiocchi fucsia per il battesimo di Azzurra", "Heart-window boxes with fuchsia bows for Azzurra's christening", True),
- ("Da7fGpNAszv_01", "battesimo-azzurra-tavolo", "battesimo", "Tavolo all'aperto con decine di scatoline a cuore e nastri rosa", "Outdoor table with dozens of heart boxes tied with pink ribbon", False),
- ("Da7fGpNAszv_03", "battesimo-azzurra-dettaglio", "battesimo", "Dettaglio delle scatole dorate con cuore traforato e tulle rosa", "Detail of gold boxes with cut-out hearts and pink tulle", False),
- ("DWBaxqQAl3z_00", "matrimonio-partecipazioni-2026", "matrimonio", "Collezione partecipazioni 2026 ad arco nei colori beige, rosa, verde e lilla", "2026 arched wedding invitation collection in beige, pink, green and lilac", False),
- ("DWBareogn8O_00", "regali-profumatori-pastello", "regali", "Profumatori per ambiente in vetro con tappi floreali nei toni pastello", "Glass home fragrance diffusers with flower caps in pastel tones", False),
+ # Battesimo
+ ("fb:134", "battesimo-mariafrancesca-buste-arcobaleno", "battesimo", "Buste arcobaleno con fiocchi in chiffon rosa antico e bigliettino del battesimo", "Rainbow favour bags with dusty-pink chiffon bows and christening tag", False, ""),
+ ("fb:119", "battesimo-orsetti-corona", "battesimo", "Orsetti con coroncina dorata e cuore su scatole azzurre e tulle", "Teddy bears with gold crowns and hearts on light blue boxes and tulle", False, ""),
+ ("fb:093", "battesimo-orsetto-aviatore", "battesimo", "Allestimento battesimo con orsetto aviatore, torta azzurra e scatoline con nastro celeste", "Christening setup with aviator teddy, light blue cake and favour boxes with sky-blue ribbon", True, ""),
+ ("fb:105", "battesimo-francesco-scatola-azzurra", "battesimo", "Scatola bianca con nastri azzurri e tag con orsetto per il battesimo di Francesco", "White box with light blue ribbons and teddy tag for Francesco's christening", False, "2025-06-08"),
+ ("ig:DbtPxU7Atsq_03", "battesimo-joseph-fiocco-azzurro", "battesimo", "Bomboniera battesimo con nastri azzurri e avorio e bigliettino con orsetto per Joseph", "Christening favour with light blue and ivory ribbons and teddy-bear tag for Joseph", False, "2026-08-06"),
+ ("ig:Da_rmO-AuWa_04", "battesimo-alessia-confettata", "battesimo", "Confettata rosa e lilla con vasi di confetti e cartellini arcobaleno", "Pink and lilac sugared almond bar with jars and rainbow labels", False, "2026-07-20"),
+ ("ig:Da7fGpNAszv_02", "battesimo-azzurra-scatole-cuore", "battesimo", "Scatole con finestra a cuore e fiocchi fucsia per il battesimo di Azzurra", "Heart-window boxes with fuchsia bows for Azzurra's christening", False, "2026-07-18"),
+ # Comunione e Cresima
+ ("fb:109", "cresima-giulia-borsetta-fiore", "comunione", "Borsetta avorio con fiore pesca e nastro rosa antico per la Cresima di Giulia", "Ivory handbag favour with peach flower and dusty-pink ribbon for Giulia's Confirmation", False, ""),
+ ("fb:110", "comunione-aurora-fiori-rosa", "comunione", "Scatole bianche e rosa con fiori secchi cipria e bigliettino della Prima Comunione di Aurora", "White and pink boxes with blush dried flowers and Aurora's First Communion tag", True, ""),
+ ("fb:113", "comunione-giovanni-fiocco-oro", "comunione", "Scatola con fiocco giallo oro, fiore in ceramica e coppetta in vetro per la Comunione di Giovanni", "Box with golden yellow bow, ceramic flower and glass dish for Giovanni's Communion", False, "2025-05-18"),
+ ("fb:097", "comunione-nicholas-nastri-oro", "comunione", "Bomboniere con nastri oro e avorio stampati Prima Comunione per Nicholas", "Favours with gold and ivory ribbons printed Prima Comunione for Nicholas", False, ""),
+ ("fb:107", "comunione-ludovico-fiori-azzurri", "comunione", "Scatole bianche con fiori azzurri e nastro celeste per la Prima Comunione di Ludovico", "White boxes with blue flowers and sky-blue ribbon for Ludovico's First Communion", False, ""),
+ ("fb:087", "cresima-giada-candela", "comunione", "Cilindri bianchi con fiori avorio e oro accanto a una candela per la Cresima di Giada", "White cylinders with ivory and gold flowers beside a candle for Giada's Confirmation", False, ""),
+ ("ig:Da-twMGAp9-_01", "comunione-chanel-cappelliere-rosa", "comunione", "Cappelliere rosa in velluto con rose cipria e nome Chanel in oro", "Pink velvet hatboxes topped with blush roses and the name Chanel in gold", False, "2026-07-19"),
+ ("ig:DbNdoNagmEn_03", "comunione-andrea-cilindri", "comunione", "Scatole cilindriche lilla con fiocchi verdi, fiori bianchi e tag della Prima Comunione di Andrea", "Lilac cylinder boxes with green bows, white flowers and First Communion tags for Andrea", False, "2026-07-25"),
+ # Matrimonio
+ ("fb:096", "matrimonio-scatole-gypsophila", "matrimonio", "Scatole bianche testurizzate con nastri di raso e mazzolini di gypsophila", "Textured white boxes with satin ribbons and baby's breath posies", True, ""),
+ ("fb:033", "matrimonio-mr-mrs-ciotoline", "matrimonio", "Ciotoline in ceramica a cuore su tagliere in legno con scritta Mr & Mrs", "Heart-shaped ceramic dishes on a wooden board with Mr & Mrs sign", False, ""),
+ ("fb:081", "matrimonio-taglieri-cuore", "matrimonio", "Taglieri a cuore in legno con ciotoline, vasetti di miele e posate", "Heart-shaped wooden boards with dishes, honey jars and spreaders", False, ""),
+ ("ig:DdgjYQdAhui_02", "matrimonio-davide-veronica-coppetta", "matrimonio", "Coppetta in vetro con confetti, fiocco champagne e bigliettino floreale sul segnaposto del matrimonio", "Glass bowl of sugared almonds with champagne bow and floral tag on a wedding place setting", False, "2026-09-20"),
+ ("ig:DWBaxqQAl3z_00", "matrimonio-partecipazioni-2026", "matrimonio", "Collezione partecipazioni 2026 ad arco nei colori beige, rosa, verde e lilla", "2026 arched wedding invitation collection in beige, pink, green and lilac", False, "2026-03-18"),
+ # Feste e ricorrenze
+ ("fb:095", "diciottesimo-pietro-nastri-tiffany", "feste", "Scatole trasparenti con nastri verde tiffany e tag 18 per i diciotto anni di Pietro", "Clear boxes with tiffany-green ribbons and 18 tags for Pietro's eighteenth", True, ""),
+ ("fb:092", "diciottesimo-fiori-corallo", "feste", "Distesa di fiori in feltro corallo e salvia con tag 18", "Field of coral and sage felt flowers with 18 tags", False, ""),
+ ("fb:086", "anniversario-50-anni-oro", "feste", "Scatole bianche con nastri oro e tag per i 50 anni insieme", "White boxes with gold ribbons and 50th anniversary tags", False, ""),
+ ("ig:Da709nIAu4l_01", "diciottesimo-pasquale-apribottiglie", "feste", "Apribottiglie personalizzato 18 anni di Pasquale con scatola blu e fiocco petrolio", "Personalised 18th birthday bottle opener for Pasquale with blue box and teal bow", False, "2026-07-18"),
+ ("ig:DbtPkOfAsA2_01", "laurea-sacchetto-rosso-quadrifoglio", "feste", "Sacchetto rosso per laurea con nastro personalizzato e portachiavi quadrifoglio", "Red graduation pouch with printed ribbon and four-leaf-clover keyring", False, "2026-08-06"),
+ # Idee regalo
+ ("fb:128", "regali-tulipani-menta", "regali", "Vaso menta con tulipani, dosatore e tazzina su ventagli di carta pastello", "Mint vase with tulips, soap dispenser and cup on pastel paper fans", True, ""),
+ ("fb:126", "regali-lampade-rosa-lilla", "regali", "Lampade in vetro rosa e lilla con diffusore di profumo", "Pink and lilac glass lamps with a fragrance diffuser", False, ""),
+ ("fb:121", "regali-vasi-floreali", "regali", "Vasi e barattoli in ceramica decorati con fiori e farfalle pastello", "Ceramic vases and jars painted with pastel flowers and butterflies", False, ""),
+ ("fb:077", "regali-lanterne-cioccolatini", "regali", "Lanterne in vetro lilla e rosa con ciotola a cuore di cioccolatini", "Lilac and pink glass lanterns with a heart bowl of chocolates", False, ""),
+ ("fb:080", "regali-barattoli-vetro-rosa", "regali", "Barattoli e alzatine in vetro rosa su colonne pastello", "Pink glass jars and cake stands on pastel pedestals", False, ""),
+ ("ig:DWBareogn8O_00", "regali-profumatori-pastello", "regali", "Profumatori per ambiente in vetro con tappi floreali nei toni pastello", "Glass home fragrance diffusers with flower caps in pastel tones", False, "2026-03-18"),
 ]
-out, md = [], ["# Gallery sources", "", "| slug | post | date | caption excerpt |", "|---|---|---|---|"]
-for rid, slug, col, ai, ae, feat in SEL:
-    code = rid.rsplit("_", 1)[0]
-    p = media[code]
-    date = datetime.datetime.utcfromtimestamp(p["taken_at"]).strftime("%Y-%m-%d")
-    im = Image.open(f"raw/{rid}.jpg").convert("RGB")
+
+ORDER = ["battesimo", "comunione", "matrimonio", "feste", "regali"]
+
+os.makedirs(OUT, exist_ok=True)
+for f in glob.glob(f"{OUT}/*.webp"):
+    os.remove(f)
+out, md = [], ["# Gallery sources", "",
+               "One photo per event/set. `fb:` = Facebook page photos grid (logged-out, image key shown), `ig:` = Instagram post slide.", "",
+               "| slug | collection | source | date |", "|---|---|---|---|"]
+for src, slug, col, ai, ae, feat, date in SEL:
+    kind, ref = src.split(":", 1)
+    path = f"raw/fbfull/{int(ref):03d}.jpg" if kind == "fb" else f"raw/{ref}.jpg"
+    im = Image.open(path).convert("RGB")
     big = im.copy(); big.thumbnail((1600, 1600), Image.LANCZOS)
-    big.save(f"../public/img/gallery/{slug}.webp", quality=82, method=6)
+    big.save(f"{OUT}/{slug}.webp", quality=82, method=6)
     th = im.copy(); th.thumbnail((640, 640), Image.LANCZOS)
-    th.save(f"../public/img/gallery/{slug}-640.webp", quality=80, method=6)
+    th.save(f"{OUT}/{slug}-640.webp", quality=80, method=6)
     out.append({"src": f"img/gallery/{slug}.webp", "thumb": f"img/gallery/{slug}-640.webp", "w": big.width, "h": big.height,
                 "collection": col, "alt_it": ai, "alt_en": ae, "featured": feat, "date": date})
-    cap = (p["caption"] or "—").replace("\n", " ").replace("|", "/")[:90]
-    md.append(f"| {slug} | https://www.instagram.com/p/{code}/ (slide {int(rid[-2:])+1}) | {date} | {cap} |")
-out.sort(key=lambda x: x["date"], reverse=True)
+    where = (f"Facebook photos, {fbidx[str(int(ref))]}" if kind == "fb"
+             else f"https://www.instagram.com/p/{ref.rsplit('_', 1)[0]}/ (slide {int(ref[-2:]) + 1})")
+    md.append(f"| {slug} | {col} | {where} | {date or 'n/d'} |")
+out.sort(key=lambda x: ORDER.index(x["collection"]))
 json.dump(out, open("../src/data/gallery.json", "w"), ensure_ascii=False, indent=2)
 open("photos.md", "w").write("\n".join(md) + "\n")
-print(len(out))
+from collections import Counter
+print(len(out), Counter(o["collection"] for o in out))

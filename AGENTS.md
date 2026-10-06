@@ -31,7 +31,7 @@ VITE_BASE=./ VITE_SITE_URL=https://<domain>/ npm run build   # portable (IONOS)
 - Read `design/DESIGN.md` before any UI work and follow its Prohibited list.
 - Tokens are the source of truth. Colors, type, spacing, radii, shadows, durations and easings come from `design/fm.tokens.json` / `src/index.css`. Never hard-code new values. When a token changes, update `DESIGN.md`, `fm.tokens.json` and `index.css` together.
 - Never invent business facts: no founding year, reviews, prices, opening hours, staff or products that aren't in `idea.md`, `src/data.ts` or the shop's own posts. Ask when unsure.
-- Gallery photos are recent Instagram work only. Every photo must be listed in `research/photos.md` and come from `research/build.py`.
+- Gallery photos are the shop's own recent work (Facebook photo grid, Instagram posts), one per event or set, with no near-duplicate angles. Every photo must be listed in `research/photos.md` and come from `research/build.py`. Collections: `battesimo`, `comunione`, `matrimonio`, `feste`, `regali`.
 - Reduced motion is required. Animations go inside `useMotion` / `gsap.matchMedia()` with `(prefers-reduced-motion: no-preference)`. Under reduce, use no transforms, Lenis, parallax, sparkles or intro, and at most 150ms of opacity. Set hidden states from JS only, so content is never hidden without JS.
 - Accessibility: 44px targets, a visible focus ring (`focus` token), `aria-pressed` on toggles, and dialog focus returned to its trigger. Every new string goes in both dictionaries.
 - Asset URLs go through `asset()` (base-path aware). Absolute URLs in `index.html` use `%SITE_URL%`.

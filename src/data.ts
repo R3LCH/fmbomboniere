@@ -1,7 +1,7 @@
 import raw from './data/gallery.json'
 
 /** Canonical collection order; only those with photos in the manifest are shown. */
-export const COLLECTIONS = ['matrimonio', 'battesimo', 'comunione', 'laurea', 'eventi', 'regali'] as const
+export const COLLECTIONS = ['battesimo', 'comunione', 'matrimonio', 'feste', 'regali'] as const
 export type Collection = (typeof COLLECTIONS)[number]
 
 type RawPhoto = {
@@ -44,7 +44,7 @@ export const presentCollections: Collection[] = COLLECTIONS.filter((c) => photos
 export const countOf = (c: Collection) => photos.filter((p) => p.collection === c).length
 
 /** Hero collage: tall arch photo first, then two stacked. Falls back to any featured photos. */
-const HERO_SLUGS = ['comunione-chanel-cappelliere-rosa', 'battesimo-joseph-fiocco-azzurro', 'matrimonio-davide-veronica-coppetta']
+const HERO_SLUGS = ['comunione-aurora-fiori-rosa', 'battesimo-orsetto-aviatore', 'regali-tulipani-menta']
 export const heroPhotos: Photo[] = (() => {
   const picked = HERO_SLUGS.map((s) => photos.find((p) => p.slug === s)).filter((p): p is Photo => !!p)
   for (const p of [...photos.filter((x) => x.featured), ...photos]) {
@@ -55,7 +55,7 @@ export const heroPhotos: Photo[] = (() => {
 })()
 
 /** About portrait inside the arch frame. */
-export const aboutPhoto: Photo = photos.find((p) => p.slug === 'battesimo-alessia-allestimento-mare') ?? photos[0]
+export const aboutPhoto: Photo = photos.find((p) => p.slug === 'matrimonio-scatole-gypsophila') ?? photos[0]
 
 /** Collection cover: a featured photo not used in the hero, then any non-hero photo, then any. */
 export const cover = (c: Collection): Photo => {

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-10-06
+
+### Changed
+
+- Gallery rebuilt with 31 distinct photos, one per event or set, mostly from the shop's Facebook photo grid. Near-duplicate angles were removed.
+- Collections reduced to five: Battesimo, Comunione e Cresima, Matrimonio, Feste e ricorrenze, Idee regalo. Laurea and Eventi are merged into Feste e ricorrenze.
+- New hero collage (Aurora's First Communion, aviator-teddy christening, mint tulip gifts) and About photo (white boxes with gypsophila).
+
 ## [1.0.0] - 2026-10-06
 
 ### Added
@@ -17,4 +25,5 @@ All notable changes to this project are documented here. The format follows [Kee
 - Deploy targets: GitHub Pages workflow, Docker + nginx, and IONOS portable build with `.htaccess`.
 - Photo pipeline in `research/` (`posts.py`, `parse.py`, `build.py`) with provenance in `research/photos.md`.
 
+[1.1.0]: https://github.com/R3LCH/fmbomboniere/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/R3LCH/fmbomboniere/releases/tag/v1.0.0

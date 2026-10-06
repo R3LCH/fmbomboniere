@@ -59,9 +59,8 @@ const it = {
   'footer.owner': 'di Francesca Moliterni',
   'c.matrimonio': 'Matrimonio',
   'c.battesimo': 'Battesimo',
-  'c.comunione': 'Comunione',
-  'c.laurea': 'Laurea',
-  'c.eventi': 'Eventi',
+  'c.comunione': 'Comunione e Cresima',
+  'c.feste': 'Feste e ricorrenze',
   'c.regali': 'Idee regalo',
 }
 
@@ -124,9 +123,8 @@ const en: Record<Key, string> = {
   'footer.owner': 'by Francesca Moliterni',
   'c.matrimonio': 'Wedding',
   'c.battesimo': 'Baptism',
-  'c.comunione': 'Communion',
-  'c.laurea': 'Graduation',
-  'c.eventi': 'Events',
+  'c.comunione': 'Communion & Confirmation',
+  'c.feste': 'Celebrations',
   'c.regali': 'Gift ideas',
 }
 
