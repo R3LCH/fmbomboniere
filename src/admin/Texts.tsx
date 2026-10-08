@@ -33,7 +33,8 @@ function Editable({ k, className = '', multiline = false, hint }: { k: Key; clas
     'aria-label': dict[lang][k],
     onChange: (e: { target: { value: string } }) => edit(k, e.target.value),
     onKeyDown: (e: KeyboardEvent) => {
-      if (e.key !== 'Enter' || e.shiftKey) return
+      // Plain Enter translates. Line breaks are blocked: the site renders text on one flow (no white-space: pre).
+      if (e.key !== 'Enter') return
       e.preventDefault()
       onEnter(k)
     },
@@ -105,7 +106,7 @@ export default function Texts({ t, lang, content, update }: Props) {
         <h2 id="texts-title" className="sr-only">{t('tabTexts')}</h2>
         <div className="grid max-w-[70ch] gap-2 rounded-[14px] border border-line bg-white p-4">
           <p className="m-0">{t('textsLead', { l: t(`lang.${lang}`) })}</p>
-          <p className="m-0 font-medium text-action">↵ {t('textsEnter', { o: t(`lang.${other}`) })}</p>
+          <p className="m-0 font-medium text-action">{t('textsEnter', { o: t(`lang.${other}`) })}</p>
           <p className="caption m-0 text-muted">{t('translateNote')}</p>
         </div>
 
