@@ -23,6 +23,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - Mobile occasions use two aligned columns without separators at row starts (`About.tsx`), instead of wrapping separator-prefixed items.
 - Hero and About no longer crash when fewer than three photos exist.
 - Mobile hero arch is vertically centered against the two right-hand photos (`Hero.tsx`); desktop bottom alignment and padding are unchanged.
+- Admin translation no longer accepts MyMemory fuzzy memory hits for a different sentence ("La felicità dipende da noi" returned "Admire someone's beauty…"); only exact memory hits or MyMemory's own MT are used, otherwise Google is tried (`src/admin/translate.ts`).
 
 ## [1.1.0] - 2026-10-06
 
