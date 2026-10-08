@@ -1,8 +1,32 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { asset, type Photo } from '../data.ts'
+import { useI18n } from '../i18n.tsx'
 
 export const LOGO = asset('logo-320.webp')
 export const LOGO_LARGE = asset('logo.webp')
+
+/** IT/EN pill toggle; shared by the site header and the admin panel. */
+export function LangToggle({ className = '', dark = false }: { className?: string; dark?: boolean }) {
+  const { lang, setLang, t } = useI18n()
+  return (
+    <div className={`flex items-center ${className}`} role="group" aria-label={t('lang.label')}>
+      {(['it', 'en'] as const).map((l) => (
+        <button
+          key={l}
+          type="button"
+          lang={l}
+          onClick={() => setLang(l)}
+          aria-pressed={lang === l}
+          className={`nav-text flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-full uppercase transition-colors duration-200 ${
+            lang === l ? (dark ? 'bg-white text-ink' : 'bg-ink text-white') : dark ? 'text-white/80 hover:text-white' : 'text-muted hover:text-ink'
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 /** Heading whose lines are revealed by `sectionReveals` ([data-split]); static spans, no split library. */
 export function SplitHeading({ lines, className = '', as: Tag = 'h2', id }: { lines: ReactNode[]; className?: string; as?: 'h1' | 'h2'; id?: string }) {

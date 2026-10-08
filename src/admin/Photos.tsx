@@ -103,16 +103,13 @@ export default function Photos({ t, lang, content, update }: Props) {
               <img src={asset(p.thumb)} alt="" width={p.w} height={p.h} className="aspect-[4/5] w-full rounded-[6px] bg-ivory object-cover" loading="lazy" />
               <div className="grid gap-4">
                 <p className="caption m-0 text-muted">{slug}</p>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <Field label={t('collection')}>
                     <select className={field} value={p.collection} onChange={(e) => patch(i, { collection: e.target.value })}>
                       {cats.map((c) => (
                         <option key={c.id} value={c.id}>{c[lang]}</option>
                       ))}
                     </select>
-                  </Field>
-                  <Field label={t('date')}>
-                    <input type="date" className={field} value={p.date} onChange={(e) => patch(i, { date: e.target.value })} />
                   </Field>
                   <label className="flex min-h-11 items-center gap-2 self-end">
                     <input type="checkbox" className="size-5 accent-[var(--color-action)]" checked={p.featured} onChange={(e) => patch(i, { featured: e.target.checked })} />

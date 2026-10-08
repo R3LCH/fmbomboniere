@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Lang } from '../i18n.tsx'
 import type { T } from './strings.ts'
 import { translate } from './translate.ts'
@@ -6,81 +6,69 @@ import { translate } from './translate.ts'
 export const field = 'w-full rounded-[2px] border border-line bg-white px-3 py-2 text-[15px] text-ink min-h-11'
 export const small = 'nav-text min-h-11 cursor-pointer rounded-full border border-line bg-white px-4 text-ink transition-colors duration-200 hover:border-action hover:text-action disabled:cursor-default disabled:opacity-60'
 
-export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
+export const otherLang = (l: Lang): Lang => (l === 'it' ? 'en' : 'it')
+
+export function Field({ label, children }: { label: ReactNode; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="caption mb-1 block text-muted">{label}</span>
+      <span className="caption mb-1 flex items-center text-muted">{label}</span>
       {children}
-      {hint && <span className="caption mt-1 block text-muted">{hint}</span>}
     </label>
   )
 }
 
 /**
- * IT + EN inputs with translate buttons in both directions. The translation fills the other field;
- * nothing is saved until the global Save, so the result can be reviewed first.
+ * IT + EN inputs. Enter in either field translates it into the other one when that one is empty;
+ * the result is shown for review and saved only with the global Save.
  */
 export function Bilingual({
   t,
   value,
   onChange,
   labels,
-  placeholder,
-  multiline = false,
-  hint,
 }: {
   t: T
   value: Record<Lang, string>
   onChange: (v: Record<Lang, string>) => void
   labels: Record<Lang, string>
-  placeholder?: Record<Lang, string>
-  multiline?: boolean
-  hint?: string
 }) {
-  const [busy, setBusy] = useState<Lang | null>(null)
+  const [busy, setBusy] = useState(false)
   const [error, setError] = useState(false)
-  const run = async (from: Lang, to: Lang) => {
-    const source = value[from] || placeholder?.[from] || ''
-    if (!source.trim()) return
-    setBusy(to)
+  const onKeyDown = async (e: KeyboardEvent<HTMLInputElement>, from: Lang) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    const to = otherLang(from)
+    if (busy || !value[from].trim() || value[to].trim()) return
+    setBusy(true)
     setError(false)
     try {
-      onChange({ ...value, [to]: await translate(source, from, to) })
+      onChange({ ...value, [to]: await translate(value[from], from, to) })
     } catch {
       setError(true)
     } finally {
-      setBusy(null)
+      setBusy(false)
     }
-  }
-  const input = (l: Lang) => {
-    const props = {
-      className: field,
-      value: value[l],
-      placeholder: placeholder?.[l],
-      lang: l,
-      onChange: (e: { target: { value: string } }) => onChange({ ...value, [l]: e.target.value }),
-    }
-    return multiline ? <textarea rows={3} {...props} /> : <input type="text" {...props} />
   }
   return (
     <div>
       <div className="grid gap-3 md:grid-cols-2">
-        <Field label={labels.it} hint={hint}>{input('it')}</Field>
-        <Field label={labels.en} hint={hint}>{input('en')}</Field>
+        {(['it', 'en'] as const).map((l) => (
+          <Field key={l} label={labels[l]}>
+            <input
+              type="text"
+              lang={l}
+              className={field}
+              value={value[l]}
+              readOnly={busy}
+              onChange={(e) => onChange({ ...value, [l]: e.target.value })}
+              onKeyDown={(e) => onKeyDown(e, l)}
+            />
+          </Field>
+        ))}
       </div>
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <button type="button" className={small} disabled={busy !== null} onClick={() => run('it', 'en')} aria-label={t('translateTo', { l: 'English' })}>
-          {busy === 'en' ? t('translating') : t('toEn')}
-        </button>
-        <button type="button" className={small} disabled={busy !== null} onClick={() => run('en', 'it')} aria-label={t('translateTo', { l: 'italiano' })}>
-          {busy === 'it' ? t('translating') : t('toIt')}
-        </button>
-        {error && (
-          <span role="alert" className="caption text-action">
-            {t('translateError')}
-          </span>
-        )}
-      </div>
+      <p className={`caption m-0 mt-1 ${error ? 'text-action' : 'text-muted'}`} role={error ? 'alert' : undefined} aria-live="polite">
+        {busy ? t('translating') : error ? t('translateError') : t('enterHint')}
+      </p>
     </div>
   )
 }

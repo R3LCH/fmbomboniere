@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { useI18n, type Key } from '../i18n.tsx'
 import { gsap, lockScroll, reducedMotion, scrollToId } from '../motion.ts'
-import { LOGO } from './ui.tsx'
+import { LangToggle, LOGO } from './ui.tsx'
 
 export const NAV: { id: string; key: Key }[] = [
   { id: 'chi-siamo', key: 'nav.about' },
@@ -9,28 +9,6 @@ export const NAV: { id: string; key: Key }[] = [
   { id: 'galleria', key: 'nav.gallery' },
   { id: 'contatti', key: 'nav.contact' },
 ]
-
-export function LangToggle({ className = '', dark = false }: { className?: string; dark?: boolean }) {
-  const { lang, setLang, t } = useI18n()
-  return (
-    <div className={`flex items-center ${className}`} role="group" aria-label={t('lang.label')}>
-      {(['it', 'en'] as const).map((l) => (
-        <button
-          key={l}
-          type="button"
-          lang={l}
-          onClick={() => setLang(l)}
-          aria-pressed={lang === l}
-          className={`nav-text flex min-h-11 min-w-11 items-center justify-center rounded-full uppercase transition-colors duration-200 ${
-            lang === l ? (dark ? 'bg-white text-ink' : 'bg-ink text-white') : dark ? 'text-white/80 hover:text-white' : 'text-muted hover:text-ink'
-          }`}
-        >
-          {l}
-        </button>
-      ))}
-    </div>
-  )
-}
 
 export default function Header() {
   const { t } = useI18n()

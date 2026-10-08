@@ -92,10 +92,10 @@ UI copy lives in `src/i18n.tsx`. `it` is the source dictionary, and `en` must ha
 
 ## Admin panel
 
-`/admin.html` (also `/admin` on the VPS) has four tabs: Foto (upload, replace, delete, reorder, category, IT/EN description, featured, date), Categorie (add, rename, reorder, delete when empty), Foto del sito (hero collage and About portrait), Testi (every UI string, grouped by section). Changes apply on Salva modifiche; unsaved changes trigger a leave-page warning.
+`/admin.html` (also `/admin` on the VPS) has four tabs: Foto (upload, replace, delete, reorder, category, IT/EN description, featured), Categorie (add, rename, reorder, delete when empty), Foto del sito (hero collage and About portrait), Testi (each site section drawn as visitors see it, with its visible texts editable in place). The IT/EN toggle in the header is the same as the site's and shares its saved choice (`fm-lang`); in Testi it selects which language is being edited. Changes apply on Salva modifiche; unsaved changes trigger a leave-page warning. The manifest `date` field is not shown on the site or in the admin; uploads get the upload day automatically.
 
 - Uploads are resized in the browser to the same renditions as `research/build.py` (1600px q82 + 640px q80 WebP), so the server needs no image libraries.
-- Each IT/EN field pair has IT → EN and EN → IT buttons. Translation uses the public MyMemory API (`api.mymemory.translated.net`), so the text being translated is sent to that service. The result fills the field for review; nothing is saved until Save.
+- Pressing Enter in a text field translates it into the other language: in Testi when the other version was never edited, in photo descriptions and category names when the other field is empty. Translation uses the public MyMemory API (`api.mymemory.translated.net`), so the text is sent to that service. The result is shown for review; nothing is saved until Save.
 - Preview mode (GitHub Pages, IONOS): no login, everything is stored in this browser's IndexedDB (`fm-admin`), and only this browser's copy of the site shows the edits. It is a demo, not publishing.
 - Server mode (VPS): password login (12h HttpOnly SameSite=Strict cookie, 5 failed attempts per IP per 15 minutes), content in `/data/content.json`, uploads in `/data/uploads/`. Saved content replaces the shipped `gallery.json` defaults; Ripristina contenuti originali restores them.
 

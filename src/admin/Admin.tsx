@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { DEFAULT_CONTENT, HttpError, SERVER, store, type Content } from '../content.ts'
-import type { Lang } from '../i18n.tsx'
+import { LangToggle, LOGO } from '../components/ui.tsx'
+import { useI18n } from '../i18n.tsx'
 import Categories from './Categories.tsx'
 import Photos from './Photos.tsx'
 import SitePhotos from './SitePhotos.tsx'
@@ -12,10 +13,9 @@ type Tab = 'photos' | 'categories' | 'site' | 'texts'
 type Status = 'idle' | 'saving' | 'error' | 'expired'
 export type Update = (fn: (c: Content) => Content) => void
 
-const LANG = 'fm-admin-lang'
 
 export default function Admin() {
-  const [lang, setLang] = useState<Lang>(() => (localStorage.getItem(LANG) === 'en' ? 'en' : 'it'))
+  const { lang } = useI18n()
   const t = makeT(lang)
   const [authed, setAuthed] = useState<boolean | null>(null)
   const [content, setContent] = useState<Content | null>(null)
@@ -23,11 +23,6 @@ export default function Admin() {
   const [dirty, setDirty] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [tab, setTab] = useState<Tab>('photos')
-
-  useEffect(() => {
-    document.documentElement.lang = lang
-    localStorage.setItem(LANG, lang)
-  }, [lang])
 
   useEffect(() => {
     store.session().then(setAuthed, () => setAuthed(false))
@@ -86,18 +81,20 @@ export default function Admin() {
     <div className="min-h-dvh bg-ivory">
       <header className="sticky top-0 z-10 border-b border-line bg-white">
         <div className="wrap flex flex-wrap items-center gap-3 py-3">
-          <h1 className="h3 m-0 mr-auto">{t('title')}</h1>
+          <img src={LOGO} alt="" width={320} height={320} className="size-11 rounded-full" />
+          <h1 className="m-0 mr-auto font-serif text-[1.5rem] leading-7 font-medium">
+            FM Bomboniere
+            <span className="caption block font-sans text-muted">{t('title')}</span>
+          </h1>
           <a className={`${small} inline-flex items-center no-underline`} href={import.meta.env.BASE_URL} target="_blank" rel="noopener">
             {t('viewSite')}
           </a>
-          <button type="button" className={small} lang={lang === 'it' ? 'en' : 'it'} onClick={() => setLang(lang === 'it' ? 'en' : 'it')}>
-            {t('lang')}
-          </button>
           {SERVER && (
             <button type="button" className={small} onClick={() => store.logout().finally(() => location.reload())}>
               {t('logout')}
             </button>
           )}
+          <LangToggle />
         </div>
         <div className="wrap flex flex-wrap items-center gap-3 pb-3">
           <nav aria-label={t('tabs')} className="mr-auto flex flex-wrap gap-2">
@@ -128,7 +125,7 @@ export default function Admin() {
         {tab === 'photos' && <Photos t={t} lang={lang} content={content} update={update} />}
         {tab === 'categories' && <Categories t={t} content={content} update={update} />}
         {tab === 'site' && <SitePhotos t={t} lang={lang} content={content} update={update} />}
-        {tab === 'texts' && <Texts t={t} content={content} update={update} />}
+        {tab === 'texts' && <Texts t={t} lang={lang} content={content} update={update} />}
         <div className="mt-16 border-t border-line pt-6">
           <button
             type="button"

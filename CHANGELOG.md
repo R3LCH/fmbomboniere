@@ -15,6 +15,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - Hide all three hero photos and decorative stars below 768px (`Hero.tsx`), leaving a text-and-CTA mobile hero without reserved collage space; tablet and desktop keep the photos.
 - Categories and their names now come from site content instead of a fixed list; Docker image serves through the Node server instead of nginx (`nginx.conf` removed).
+- Admin Testi tab redesigned as a live mock of each site section with in-place editing and the other language shown under every text; translation runs on Enter instead of buttons; admin uses the site's IT/EN toggle (top right) and shows the logo; the photo Date field is no longer shown (it never appeared on the site).
 
 ### Fixed
 
