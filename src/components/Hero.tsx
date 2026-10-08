@@ -56,6 +56,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           </div>
         </div>
 
+        {main && (
         <div className="relative mx-auto hidden w-full max-w-[640px] grid-cols-[3fr_2fr] items-center gap-3 md:grid sm:gap-5 lg:items-end">
           <div className="relative" data-parallax="1">
             <Sparkles />
@@ -64,13 +65,14 @@ export default function Hero({ ready }: { ready: boolean }) {
             </div>
           </div>
           <div className="flex flex-col gap-3 sm:gap-5 lg:pb-8" data-parallax="-1">
-            {[a, b].map((p) => (
+            {[a, b].filter((p) => !!p).map((p) => (
               <div key={p.slug} className="zoom aspect-[4/5] overflow-hidden rounded-[6px]" data-img>
                 <Img photo={p} alt={lang === 'it' ? p.alt_it : p.alt_en} eager sizes="(min-width: 1024px) 250px, 38vw" className="size-full object-cover" />
               </div>
             ))}
           </div>
         </div>
+        )}
       </div>
     </section>
   )

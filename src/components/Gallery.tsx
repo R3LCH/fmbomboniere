@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { photos, presentCollections, type Collection } from '../data.ts'
+import { label, photos, presentCollections, type Collection } from '../data.ts'
 import { useI18n } from '../i18n.tsx'
 import { Flip, gsap, reducedMotion, ScrollTrigger, sectionReveals, useMotion } from '../motion.ts'
 import Lightbox from './Lightbox.tsx'
@@ -64,7 +64,7 @@ export default function Gallery({ filter, setFilter }: { filter: Filter; setFilt
                 filter === c ? 'border-action bg-action text-white' : 'border-line bg-white text-ink hover:border-action hover:text-action'
               }`}
             >
-              {c === 'all' ? t('gal.all') : t(`c.${c}`)}
+              {c === 'all' ? t('gal.all') : label(c, lang)}
             </button>
           ))}
         </div>

@@ -7,14 +7,19 @@ All notable changes to this project are documented here. The format follows [Kee
 ### Added
 
 - White textured vases with tulips in Idee regalo (`research/build.py`); 32 photos now fill the last row of the two-column All gallery.
+- Admin panel (`/admin.html`): upload, replace, delete and reorder photos with IT/EN descriptions; add, rename, reorder and delete categories; pick hero and About photos; edit every section text with IT ↔ EN auto-translation (MyMemory).
+- VPS deploy: dependency-free Node server (`server/server.mjs`) with password login, content and uploads in a Docker volume, plus `deploy/nginx-vps.conf` for HTTPS.
+- GitHub Pages and IONOS builds include the admin as a browser-only preview (IndexedDB).
 
 ### Changed
 
 - Hide all three hero photos and decorative stars below 768px (`Hero.tsx`), leaving a text-and-CTA mobile hero without reserved collage space; tablet and desktop keep the photos.
+- Categories and their names now come from site content instead of a fixed list; Docker image serves through the Node server instead of nginx (`nginx.conf` removed).
 
 ### Fixed
 
 - Mobile occasions use two aligned columns without separators at row starts (`About.tsx`), instead of wrapping separator-prefixed items.
+- Hero and About no longer crash when fewer than three photos exist.
 - Mobile hero arch is vertically centered against the two right-hand photos (`Hero.tsx`); desktop bottom alignment and padding are unchanged.
 
 ## [1.1.0] - 2026-10-06

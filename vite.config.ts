@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
@@ -14,7 +15,7 @@ function site(): Plugin {
     transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', SITE_URL),
     generateBundle() {
       const emit = (fileName: string, source: string) => this.emitFile({ type: 'asset', fileName, source })
-      emit('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}sitemap.xml\n`)
+      emit('robots.txt', `User-agent: *\nAllow: /\nDisallow: /admin.html\n\nSitemap: ${SITE_URL}sitemap.xml\n`)
       emit(
         'sitemap.xml',
         `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${SITE_URL}</loc>\n    <lastmod>${new Date().toISOString().slice(0, 10)}</lastmod>\n  </url>\n</urlset>\n`,
@@ -29,6 +30,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), site()],
   build: {
     rollupOptions: {
+      input: { main: resolve(import.meta.dirname, 'index.html'), admin: resolve(import.meta.dirname, 'admin.html') },
       output: {
         manualChunks(id) {
           if (/node_modules\/(gsap|lenis)/.test(id)) return 'motion'

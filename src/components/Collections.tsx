@@ -1,11 +1,11 @@
 import { useRef } from 'react'
-import { countOf, cover, presentCollections, type Collection } from '../data.ts'
+import { countOf, cover, label, presentCollections, type Collection } from '../data.ts'
 import { useI18n } from '../i18n.tsx'
 import { sectionReveals, useMotion } from '../motion.ts'
 import { Icon, Img, SplitHeading } from './ui.tsx'
 
 export default function Collections({ onPick }: { onPick: (c: Collection) => void }) {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const ref = useRef<HTMLElement>(null)
   useMotion(ref, sectionReveals)
 
@@ -18,7 +18,7 @@ export default function Collections({ onPick }: { onPick: (c: Collection) => voi
           {presentCollections.map((c) => {
             const p = cover(c)
             const n = countOf(c)
-            const name = t(`c.${c}`)
+            const name = label(c, lang)
             return (
               <li key={c} data-reveal>
                 <button type="button" onClick={() => onPick(c)} className="group block w-full cursor-pointer rounded-[6px] text-left" aria-label={t('col.view', { c: name })}>

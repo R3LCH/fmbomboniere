@@ -1,7 +1,17 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_SITE_URL: ${VITE_SITE_URL:-}
     image: fmbomboniere:latest
+    # Bound to localhost: put nginx (deploy/nginx-vps.conf) with HTTPS in front.
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:8080"
+    env_file: .env
+    volumes:
+      - fm-data:/data
     restart: unless-stopped
+
+volumes:
+  fm-data:

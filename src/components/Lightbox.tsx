@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import type { Photo } from '../data.ts'
+import { label, type Photo } from '../data.ts'
 import { useI18n } from '../i18n.tsx'
 import { gsap, lockScroll, reducedMotion } from '../motion.ts'
 import { Icon } from './ui.tsx'
@@ -121,7 +121,7 @@ export default function Lightbox({ items, index, setIndex }: Props) {
         <p className="pointer-events-auto m-0 max-w-[60ch] text-center text-[15px] leading-6 text-white" aria-live="polite">
           <span className="sr-only">{`${index + 1} / ${items.length}. `}</span>
           {alt}
-          <span className="mt-1 block text-[12px] tracking-[0.18em] uppercase text-white/80">{t(`c.${photo.collection}`)}</span>
+          <span className="mt-1 block text-[12px] tracking-[0.18em] uppercase text-white/80">{label(photo.collection, lang)}</span>
         </p>
       </div>
       <p className="nav-text absolute top-5 left-5 m-0 text-white" aria-hidden="true">{`${index + 1} / ${items.length}`}</p>

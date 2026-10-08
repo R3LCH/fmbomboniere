@@ -57,11 +57,6 @@ const it = {
   'footer.tag': 'Bomboniere e articoli da regalo a Scalea',
   'footer.top': 'Torna su',
   'footer.owner': 'di Francesca Moliterni',
-  'c.matrimonio': 'Matrimonio',
-  'c.battesimo': 'Battesimo',
-  'c.comunione': 'Comunione e Cresima',
-  'c.feste': 'Feste e ricorrenze',
-  'c.regali': 'Idee regalo',
 }
 
 export type Key = keyof typeof it
@@ -121,15 +116,17 @@ const en: Record<Key, string> = {
   'footer.tag': 'Wedding favours and gifts in Scalea',
   'footer.top': 'Back to top',
   'footer.owner': 'by Francesca Moliterni',
-  'c.matrimonio': 'Wedding',
-  'c.battesimo': 'Baptism',
-  'c.comunione': 'Communion & Confirmation',
-  'c.feste': 'Celebrations',
-  'c.regali': 'Gift ideas',
 }
 
-const dict: Record<Lang, Record<Key, string>> = { it, en }
+export const dict: Record<Lang, Record<Key, string>> = { it, en }
+export type TextOverrides = Partial<Record<Lang, Partial<Record<Key, string>>>>
 const STORAGE = 'fm-lang'
+
+// Admin-edited copy; set once from loaded content before render.
+let overrides: TextOverrides = {}
+export function setTextOverrides(o: TextOverrides | undefined) {
+  overrides = o ?? {}
+}
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: Key, vars?: Record<string, string | number>) => string }
 const I18n = createContext<Ctx | null>(null)
@@ -141,7 +138,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE, lang)
   }, [lang])
   const t: Ctx['t'] = (k, vars) => {
-    let s = dict[lang][k]
+    let s = overrides[lang]?.[k] || dict[lang][k]
     if (vars) for (const [n, v] of Object.entries(vars)) s = s.replace(`{${n}}`, String(v))
     return s
   }

@@ -9,7 +9,8 @@ Vite 8, React 19, TypeScript, Tailwind CSS 4 (`@theme` in `src/index.css`), GSAP
 ## Paths
 
 - `src/components/*`: sections. Shared pieces are in `ui.tsx`. Contracts are in `design/components.json`.
-- `src/data.ts` + `src/data/gallery.json`: collections, photos, contacts (`CONTACT`).
+- `src/content.ts`: `Content` model (categories, photos, hero/About picks, text overrides), `DEFAULT_CONTENT`, store (server API or IndexedDB preview). `src/data.ts` derives photos/collections from it; `src/data/gallery.json` is the shipped manifest.
+- `src/admin/*` + `admin.html`: admin panel. `server/server.mjs`: VPS server (static + `/api`), no dependencies.
 - `src/i18n.tsx`: all UI copy (`it` is the source, `en` has the same keys).
 - `src/motion.ts`: `useMotion`, `sectionReveals`, Lenis, scroll lock.
 - `vite.config.ts`: `VITE_BASE`, plus the `fm-site` plugin that handles `%SITE_URL%`, `robots.txt`, `sitemap.xml` and `dist/design/*`.
@@ -23,6 +24,7 @@ npm ci
 npm run dev
 npm run build                                  # tsc -b && vite build
 VITE_BASE=/fmbomboniere/ npm run build         # GitHub Pages
+VITE_ADMIN_MODE=server VITE_BASE=/ npm run build && ADMIN_PASSWORD=<10+ chars> node server/server.mjs   # VPS mode, :8080
 VITE_BASE=./ VITE_SITE_URL=https://<domain>/ npm run build   # portable (IONOS)
 ```
 

@@ -13,9 +13,11 @@ export default function About() {
     <section ref={ref} id="chi-siamo" aria-labelledby="about-title" className="section bg-[linear-gradient(180deg,#fff_0%,var(--color-blush)_14%)]">
       <div className="wrap grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
         <div className="relative mx-auto w-full max-w-[420px]">
-          <div className="arch aspect-[4/5]" data-img>
-            <Img photo={aboutPhoto} alt={lang === 'it' ? aboutPhoto.alt_it : aboutPhoto.alt_en} sizes="(min-width: 1024px) 420px, 80vw" className="size-full object-cover" />
-          </div>
+          {aboutPhoto && (
+            <div className="arch aspect-[4/5]" data-img>
+              <Img photo={aboutPhoto} alt={lang === 'it' ? aboutPhoto.alt_it : aboutPhoto.alt_en} sizes="(min-width: 1024px) 420px, 80vw" className="size-full object-cover" />
+            </div>
+          )}
           <img src={LOGO} alt="" width={320} height={320} loading="lazy" className="absolute -right-3 -bottom-6 size-24 rounded-full border-4 border-blush sm:size-28" />
         </div>
         <div>
